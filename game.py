@@ -77,11 +77,11 @@ def game_func():
 
 
     # The game in a 2D array
-    game = [[0,0,0,0,0],
-            [0,0,0,0,0],
-            [0,0,0,0,0],
-            [0,0,0,0,0],
-            [0,0,0,0,0]]
+    game = [[2,2,2,2,2],
+            [2,2,2,2,2],
+            [2,2,2,2,2],
+            [2,2,2,2,2],
+            [2,2,2,2,2]]
 
 
     # Creating the random Mines Based from the "mines" variable
@@ -89,8 +89,8 @@ def game_func():
     while count <= mines-1:
         x = random.randint(0,4)
         y = random.randint(0,4)
-        if game[y][x] != 1:
-            game[y][x] = 1
+        if game[y][x] != 3:
+            game[y][x] = 3
             
         else:
             count -= 1
@@ -98,7 +98,7 @@ def game_func():
 
     # To prevent you clicking on the same tile over and over again
     game_rep = game
-
+    game_rep2 = game
 
     # Main Game Loop
     while run:
@@ -139,18 +139,29 @@ def game_func():
 
 
                     # Mine
-                    if game[Y_Square][X_Square] == 1 and game_rep[Y_Square][X_Square] != False:
+                    if game[Y_Square][X_Square] == 3 and game_rep[Y_Square][X_Square] != False:
                         game_rep[Y_Square][X_Square] = False
-                        pygame.draw.rect(screen, RED, (X_Square*SIZEW, Y_Square*SIZEH, SIZEW, SIZEH))
+                        #pygame.draw.rect(screen, RED, (X_Square*SIZEW, Y_Square*SIZEH, SIZEW, SIZEH))
                         cashouting = True
                         start = False
                         money_made = 0
+
+                        for i in range(5):
+                            for j in range(5):
+                                
+                                if game_rep2[i][j] == 2:
+                                    pygame.draw.rect(screen, WHITE, (j*SIZEW, i*SIZEH, SIZEW, SIZEH))
+                                    
+                                elif game_rep2[i][j] == 3 or game_rep2[i][j] == False:
+                                    pygame.draw.rect(screen, RED, (j*SIZEW, i*SIZEH, SIZEW, SIZEH))
+
                         pygame.display.update()
+                        pygame.time.wait(100)
                         game_func()
 
 
                     # Safe Tile
-                    elif game[Y_Square][X_Square] == 0 and game_rep[Y_Square][X_Square] != True:
+                    elif game[Y_Square][X_Square] == 2 and game_rep[Y_Square][X_Square] != True:
                         game_rep[Y_Square][X_Square] = True
                         cashouting = True
                         start = True

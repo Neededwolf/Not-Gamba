@@ -1,7 +1,4 @@
 # Dragon Tower #
-
-# https://stakecommunity.com/topic/51591-dragon-tower-multiplier/
-
 import pygame
 from random import randint
 import os
@@ -31,18 +28,18 @@ GREEN = (0,255,0)
 BLUE = (0,0,255)
 smallfont = pygame.font.SysFont('Arial', 20)
 
-mult = 1 #(base multiplier**level) * .98
+mult = 1
 money_made = 0
 
 
-# easy base = 4/3 -> 4 tiles 1 bad
-# mid = 3/2 -> 3 tiles 1 bad
-# hard = 2 ->  2 tiles 1 bad
-# expert  = 3 -> 3 tiles 2 bad
-# master = 4 -> 4 tiles 3 bad
+# easy base = 4/3 -> 4 tiles 1 bad -> 1
+# mid = 3/2 -> 3 tiles 1 bad -> 2
+# hard = 2 ->  2 tiles 1 bad -> 3
+# expert  = 3 -> 3 tiles 2 bad -> 4
+# master = 4 -> 4 tiles 3 bad -> 5
 
 
-easy = [[2,2,2,2],  # 1
+easy = [[2,2,2,2],
         [2,2,2,2],
         [2,2,2,2],
         [2,2,2,2],
@@ -53,7 +50,7 @@ easy = [[2,2,2,2],  # 1
         [2,2,2,2],
         ]
 
-medium = [[2,2,2],  # 2
+medium = [[2,2,2],
         [2,2,2],
         [2,2,2],
         [2,2,2],
@@ -64,7 +61,7 @@ medium = [[2,2,2],  # 2
         [2,2,2],
         ]
 
-hard = [[2,2],  # 3
+hard = [[2,2],
         [2,2],
         [2,2],
         [2,2],
@@ -75,7 +72,7 @@ hard = [[2,2],  # 3
         [2,2],
         ]
 
-expert = [[2,2,2],  # 4
+expert = [[2,2,2],
         [2,2,2],
         [2,2,2],
         [2,2,2],
@@ -87,7 +84,7 @@ expert = [[2,2,2],  # 4
         ]
 
 
-master = [[2,2,2,2],   # 5
+master = [[2,2,2,2],
         [2,2,2,2],
         [2,2,2,2],
         [2,2,2,2],
@@ -97,15 +94,9 @@ master = [[2,2,2,2],   # 5
         [2,2,2,2],
         [2,2,2,2],
         ]
-
-
-
 
 game_choice = [easy, medium, hard, expert,  master]
-
 money = 1000
-
-
 def create_board(game, mode):
     count = 0
     for i in range(9):
@@ -122,7 +113,6 @@ def create_board(game, mode):
                     count -= 1
                 count += 1
     return game
-
 
 def game_func():
     global mode, money, money_made
@@ -156,9 +146,6 @@ def game_func():
     
     base_mult = base_mult/6
 
-
-
-
     money -= bet
 
     while run:
@@ -170,10 +157,7 @@ def game_func():
             
             if ev.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] and not end:
 
-
-
                 mouse = pygame.mouse.get_pos()
-
 
                 if mouse[0] <= 600:
                     SQUAREX = floor(mouse[0] / SIZEW)
@@ -187,7 +171,6 @@ def game_func():
                         pygame.draw.rect(screen, RED, (SQUAREX*SIZEW, SQUAREY*SIZEH, SIZEW, SIZEH))
                         pygame.display.update()
                         end = True
-                        #level += 1
                     
                 if (650 <= mouse[0] <= 725) and (HEIGHT/2 - 50 <= mouse[1] <= HEIGHT/2) and money_made > 0:
                     money += money_made
@@ -216,16 +199,12 @@ def game_func():
                 screen.blit(total_money, (650, 0))
                 end = True
 
-
-
         if level != 0:
             mult = round((base_mult**(level)) * 0.98, 2)
         else:
             mult = 0
 
-
         money_made = bet * mult
-
         
         for i in range(9):
             for j in range(len(game[0])+1):
@@ -243,10 +222,6 @@ def game_func():
         if randint(1, 25) == 1:
             pygame.draw.rect(screen, BLACK, (601, 0, 300, HEIGHT))
 
-
-
-
         pygame.display.flip()
-
 
 game_func()
